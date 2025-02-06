@@ -2,6 +2,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from matplotlib.colors import Colormap
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, classification_report
 from sklearn.model_selection import train_test_split
 from sklearn.impute import KNNImputer
 from sklearn.impute import SimpleImputer
@@ -63,4 +66,26 @@ plt.show()
 missing_percentage = (titanic.isnull().sum() / len(titanic)) * 100
 print(missing_percentage)
 
+#RandomForest
+model = RandomForestClassifier(n_estimators=500, random_state=42)
+model.fit(X_train, y_train)
 
+y_pred = model.predict(X_test)
+print(f"Dokładność modelu: {accuracy_score(y_test, y_pred):.2f}")
+print("Raport RandomForest:\n", classification_report(y_test, y_pred))
+
+sns.countplot(x=y_pred, hue=y_pred, palette="coolwarm")
+plt.title("Przewidywane wyniki (0 = nie przeżył, 1 = przeżył)")
+plt.xlabel("Survived")
+plt.ylabel("Liczba osób")
+plt.show()
+
+#LogisticRegression \\ saga < liblinear
+model = LogisticRegression(max_iter=25000, solver="liblinear")
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Dokładność modelu: {accuracy:.2f}")
+print("Raport LogisticRegression:\n", classification_report(y_test, y_pred))
