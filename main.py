@@ -53,7 +53,7 @@ sns.countplot(x = y_test, hue=y_test, palette="coolwarm")
 plt.title("Test")
 
 plt.show()
-#Wykres ile przeżyło
+#Wykres ile przeżyło osób
 sns.catplot(x="Pclass", hue="Sex", col="Survived", data=titanic[titanic["Survived"] == 1], kind="count", palette="coolwarm")
 plt.subplots_adjust(top=0.85)
 plt.suptitle("Przeżycie klas i płeć")
